@@ -1,3 +1,5 @@
+import random
+
 import pygame
 
 from enum import Enum
@@ -15,6 +17,7 @@ class TileType(Enum):
     EMPTY = 0
     GRASS = 1
     SAND = 2
+    WATER = 3
 
 
 class Tile:  # do I need it?
@@ -25,37 +28,33 @@ class Tile:  # do I need it?
 class TileMap:
     def __init__(self, size):
         self.width, self.height = size
-        self.tiles = [TileType.GRASS] * (self.width * self.height)
-        self.tiles[0] = TileType.EMPTY
-        self.tiles[1] = TileType.EMPTY
 
-    def draw(self, surface):  # I guess rendering should be in a different place...
+        self.tiles = [TileType.EMPTY] * (self.width * self.height)
+        # some world generation logic
         for i, tile in enumerate(self.tiles):
             x = i % self.width
             y = i // self.width
 
-            tile_points = TileMap.get_tile_points(x, y)
-            tile_points = isogame.util.apply_offset(tile_points, (SCREEN_WIDTH, SCREEN_HEIGHT))
+            r = random.randint(1, 100)
 
-            # tile texture
-            top_left = isogame.util.get_polygon_top_left_corner(tile_points)
-            image = AssetPool.get_image("tile_grass")
-            surface.blit(image, top_left)
+            if r <= 10:
+                self.tiles[i] = TileType.WATER
+            elif r <= 20:
+                self.tiles[i] = TileType.SAND
+            else:
+                self.tiles[i] = TileType.GRASS
 
-            # tile grid
-            pygame.draw.polygon(surface, (63, 63, 63),
-                                tile_points, 1)
+
 
     @staticmethod
-    def get_tile_points(grid_x, grid_y, isometric=True):
+    def get_tile_points(grid_x, grid_y):
+        """Returns 4 cartesian points of a tile as a list"""
         points = [
             (grid_x * TILE_SIZE, grid_y * TILE_SIZE),
             (grid_x * TILE_SIZE + TILE_SIZE, grid_y * TILE_SIZE),
             (grid_x * TILE_SIZE + TILE_SIZE, grid_y * TILE_SIZE + TILE_SIZE),
             (grid_x * TILE_SIZE, grid_y * TILE_SIZE + TILE_SIZE)
         ]
-        if isometric:
-            points = [isogame.util.cart_to_iso(*point) for point in points]
         return points
 
 

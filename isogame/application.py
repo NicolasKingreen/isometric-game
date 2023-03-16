@@ -2,7 +2,7 @@ import pygame
 
 from isogame.colors import *
 from isogame.hud import HUD
-from isogame.settings import SCREEN_SIZE, TARGET_FPS, TOP_BAR_HEIGHT
+from isogame.settings import *
 from isogame.util import draw_text, cart_to_iso, iso_to_cart, apply_offset
 from isogame.world import World
 
@@ -18,7 +18,7 @@ class Application:
 
         self.is_running = False
 
-        self.world = World()
+        self.world = World(WORLD_SIZE)
         self.hud = HUD()
 
     def run(self):
@@ -46,7 +46,7 @@ class Application:
         self.world.draw(self.display_surface)
         self.hud.draw(self.display_surface)
         draw_text(self.display_surface, f"{round(self.clock.get_fps())} fps", (3, 3 + TOP_BAR_HEIGHT))
-        draw_text(self.display_surface, f"{cart_to_iso(*self.world.get_grid_cell_from_screen_coordinates(*pygame.mouse.get_pos()))}", (3, 3 + TOP_BAR_HEIGHT + 3 + 16))
+        draw_text(self.display_surface, f"{self.world.get_grid_cell_from_screen_coordinates(*pygame.mouse.get_pos())}", (3, 3 + TOP_BAR_HEIGHT + 3 + 16))
         mouse_pos = pygame.mouse.get_pos()
         draw_text(self.display_surface, f"{mouse_pos}", (mouse_pos[0] + 15, mouse_pos[1]))
         pygame.display.update()

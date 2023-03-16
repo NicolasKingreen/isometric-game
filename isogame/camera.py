@@ -13,6 +13,8 @@ class Camera:
 
     def update(self, frame_time_s):
 
+        # TODO: add middle mouse button grab
+
         mouse_x, mouse_y = pygame.mouse.get_pos()
         pressed_keys = pygame.key.get_pressed()
 

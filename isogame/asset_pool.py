@@ -6,27 +6,34 @@ FONTS_PATH = "assets/fonts"
 
 
 class AssetPool:
-    images = {}
-    fonts = {}
+    _images = {}
+    _fonts = {}
 
     @staticmethod
     def get_image(image_name):
-        if AssetPool.images.get(image_name):
-            return AssetPool.images[image_name]
+        if AssetPool._images.get(image_name):
+            return AssetPool._images[image_name]
         else:
             image = pygame.image.load(f"{IMAGES_PATH}/{image_name}.png").convert_alpha()
-            AssetPool.images[image_name] = image
-            return AssetPool.images[image_name]
+            AssetPool._images[image_name] = image
+            return AssetPool._images[image_name]
+
+    @staticmethod
+    def set_image(image_name, image):
+        if not AssetPool._images.get(image_name):
+            AssetPool._images[image_name] = image
+        else:
+            print(f"** Texture {image_name} exists")
 
     @staticmethod
     def get_font(font_name, size=32):
         font_name_sized = f"{font_name}_{size}"
-        if AssetPool.fonts.get(font_name):
-            return AssetPool.fonts[font_name_sized]
+        if AssetPool._fonts.get(font_name):
+            return AssetPool._fonts[font_name_sized]
         else:
             font = pygame.font.Font(f"{FONTS_PATH}/{font_name}.ttf", size)
-            AssetPool.fonts[font_name_sized] = font
-            return AssetPool.fonts[font_name_sized]
+            AssetPool._fonts[font_name_sized] = font
+            return AssetPool._fonts[font_name_sized]
 
 
 def get_available_formats(file_name):

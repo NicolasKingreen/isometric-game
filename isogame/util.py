@@ -11,8 +11,8 @@ def cart_to_iso(x, y):
 
 
 def iso_to_cart(x, y):
-    cart_y = (2 * y - x) / 2
-    cart_x = y + x
+    cart_x = x/2 + y
+    cart_y = y - x/2
     return cart_x, cart_y
 
 
