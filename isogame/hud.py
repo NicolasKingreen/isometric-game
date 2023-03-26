@@ -3,7 +3,7 @@ import pygame
 from isogame.asset_pool import AssetPool
 from isogame.colors import *
 from isogame.settings import *
-from isogame.util import draw_text, scale_image
+from isogame.util import draw_text, scale_image_to_size
 
 
 class HUD:
@@ -33,10 +33,10 @@ class HUDMenu:
     def __init__(self):
         self.items = []
 
-        menu_item_01_image = scale_image(AssetPool.get_image("menu_item_01"), HUD_ITEM_IMAGE_SIZE)
+        menu_item_01_image = scale_image_to_size(AssetPool.get_image("menu_item_01"), HUD_ITEM_IMAGE_SIZE)
         self.items.append(HUDItem(menu_item_01_image))
 
-        menu_item_02_image = scale_image(AssetPool.get_image("menu_item_02"), HUD_ITEM_IMAGE_SIZE)
+        menu_item_02_image = scale_image_to_size(AssetPool.get_image("menu_item_02"), HUD_ITEM_IMAGE_SIZE)
         self.items.append(HUDItem(menu_item_02_image))
 
         menu_item_03_image = pygame.Surface(HUD_ITEM_IMAGE_SIZE)

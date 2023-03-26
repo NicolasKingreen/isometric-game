@@ -4,7 +4,7 @@ import isogame.util
 from isogame.asset_pool import AssetPool
 from isogame.camera import Camera
 from isogame.settings import SCREEN_WIDTH, SCREEN_HEIGHT
-from isogame.tilemap import TileMap, TileType, TILE_SIZE
+from isogame.tilemap import TileMap, TileType, BuildingType, TILE_SIZE
 
 
 # TODO: chunk (8x8 tiles) system based batch rendering
@@ -54,6 +54,13 @@ class World:
 
             # tile grid
             pygame.draw.polygon(surface, (63, 63, 63), tile_points, 1)
+
+            # buildings  # TODO: implement rotations
+            if self.tile_map.buildings[i] == BuildingType.HOUSE:
+                new_x, new_y = top_left
+                new_y -= TILE_SIZE
+                image = AssetPool.get_image("building_house")
+                surface.blit(image, (new_x+1, new_y))
 
     def get_grid_cell_from_screen_coordinates(self, x, y):  # Where should it be?
 
