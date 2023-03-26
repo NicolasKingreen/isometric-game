@@ -9,7 +9,7 @@ class Camera:
         self.position = Vector2(start_pos)
         self.move_direction = Vector2()
         self.move_vector = Vector2()
-        self.speed = 500  # px/s
+        self.speed = 1000  # px/s
 
     def update(self, frame_time_s):
 
@@ -19,20 +19,20 @@ class Camera:
         pressed_keys = pygame.key.get_pressed()
 
         # x
-        if mouse_x > SCREEN_WIDTH * (1 - EDGE_SCROLLING_PERCENT)\
+        if mouse_x >= SCREEN_WIDTH * (1 - EDGE_SCROLLING_PERCENT) - 1 \
                 or pressed_keys[pygame.K_d]:
             self.move_direction.x = -1
-        elif mouse_x < SCREEN_WIDTH * EDGE_SCROLLING_PERCENT\
+        elif mouse_x <= SCREEN_WIDTH * EDGE_SCROLLING_PERCENT\
                 or pressed_keys[pygame.K_a]:
             self.move_direction.x = 1
         else:
             self.move_direction.x = 0
 
         # y
-        if mouse_y > SCREEN_HEIGHT * (1 - EDGE_SCROLLING_PERCENT)\
+        if mouse_y >= SCREEN_HEIGHT * (1 - EDGE_SCROLLING_PERCENT) - 1 \
                 or pressed_keys[pygame.K_s]:
             self.move_direction.y = -1
-        elif mouse_y < SCREEN_HEIGHT * EDGE_SCROLLING_PERCENT\
+        elif mouse_y <= SCREEN_HEIGHT * EDGE_SCROLLING_PERCENT\
                 or pressed_keys[pygame.K_w]:
             self.move_direction.y = 1
         else:
