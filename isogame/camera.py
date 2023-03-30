@@ -1,6 +1,7 @@
 import pygame
 from pygame import Vector2
 
+from isogame.input import InputHandler
 from isogame.settings import SCREEN_WIDTH, SCREEN_HEIGHT, EDGE_SCROLLING_PERCENT
 
 
@@ -17,6 +18,7 @@ class Camera:
 
         mouse_x, mouse_y = pygame.mouse.get_pos()
         pressed_keys = pygame.key.get_pressed()
+        # pressed_keys = InputHandler.keys
 
         # x
         if mouse_x >= SCREEN_WIDTH * (1 - EDGE_SCROLLING_PERCENT) - 1 \

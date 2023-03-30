@@ -2,6 +2,7 @@ import pygame
 
 from isogame.colors import *
 from isogame.hud import HUD
+from isogame.input import InputHandler
 from isogame.settings import *
 from isogame.util import draw_text, cart_to_iso, iso_to_cart, apply_offset
 from isogame.world import World
@@ -16,6 +17,8 @@ class Application:
         self.frame_time_ms = 0
         self.frame_time_s = 0
 
+        # self.input_handler = InputHandler
+
         self.is_running = False
 
         self.world = World(WORLD_SIZE)
@@ -27,6 +30,7 @@ class Application:
             self.frame_time_ms = self.clock.tick(TARGET_FPS)
             self.frame_time_s = self.frame_time_ms / 1000.
             self._process_events()
+            # InputHandler.update_keys()
             self._update_states()
             self._render_graphics()
 
