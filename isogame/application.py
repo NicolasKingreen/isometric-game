@@ -1,5 +1,9 @@
 import pygame
 
+import psutil
+import os
+
+import isogame.util
 from isogame.colors import *
 from isogame.hud import HUD
 from isogame.input import InputHandler
@@ -17,6 +21,13 @@ class Application:
         self.frame_time_ms = 0
         self.frame_time_s = 0
 
+        self.process = psutil.Process(os.getpid())
+        self.process.cpu_percent()
+        self.cpu_percent_interval = 1
+        self.cpu_percent_timer = 0
+        self.cpu_usage = 0
+        self.mem_usage = 0
+
         # self.input_handler = InputHandler
 
         self.is_running = False
@@ -29,6 +40,11 @@ class Application:
         while self.is_running:
             self.frame_time_ms = self.clock.tick(TARGET_FPS)
             self.frame_time_s = self.frame_time_ms / 1000.
+            self.cpu_percent_timer += self.frame_time_s
+            if self.cpu_percent_timer >= self.cpu_percent_interval:
+                self.cpu_usage = self.process.cpu_percent()
+                self.mem_usage = self.process.memory_info().rss / 1024 / 1024  # mb
+                self.cpu_percent_timer = 0
             self._process_events()
             # InputHandler.update_keys()
             self._update_states()
@@ -49,7 +65,7 @@ class Application:
         self.display_surface.fill((255, 255, 255))
         self.world.draw(self.display_surface)
         self.hud.draw(self.display_surface)
-        draw_text(self.display_surface, f"{round(self.clock.get_fps())} fps", (3, 3 + TOP_BAR_HEIGHT))
+        draw_text(self.display_surface, f"{round(self.clock.get_fps())} fps ({self.cpu_usage}%/{int(self.mem_usage)}MB", (3, 3 + TOP_BAR_HEIGHT))
         draw_text(self.display_surface, f"{self.world.get_grid_cell_from_screen_coordinates(*pygame.mouse.get_pos())}", (3, 3 + TOP_BAR_HEIGHT + 3 + 16))
         mouse_pos = pygame.mouse.get_pos()
         draw_text(self.display_surface, f"{mouse_pos}", (mouse_pos[0] + 15, mouse_pos[1]))
