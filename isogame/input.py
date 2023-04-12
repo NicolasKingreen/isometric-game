@@ -3,13 +3,16 @@ import pygame
 
 class InputHandler:
 
-    keys = {}  # should be initialized
+    keydowns = {}
+    keyups = {}
 
     @staticmethod
-    def update_keys():
+    def get_input():
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                InputHandler.keys[event.key] = True
+                InputHandler.keydowns[event.key] = True
+                InputHandler.keyups[event.key] = False
             elif event.type == pygame.KEYUP:
-                InputHandler.keys[event.key] = False
+                InputHandler.keyups[event.key] = True
+                InputHandler.keydowns[event.key] = False
 

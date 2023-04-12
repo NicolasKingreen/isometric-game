@@ -10,7 +10,7 @@ class AssetPool:
     _fonts = {}
 
     @staticmethod
-    def get_image(image_name):
+    def get_image(image_name) -> pygame.Surface:
         if AssetPool._images.get(image_name):
             return AssetPool._images[image_name]
         else:
@@ -19,11 +19,11 @@ class AssetPool:
             return AssetPool._images[image_name]
 
     @staticmethod
-    def set_image(image_name, image):
+    def add_image(image_name, image):
         if not AssetPool._images.get(image_name):
             AssetPool._images[image_name] = image
         else:
-            print(f"** Texture {image_name} exists")
+            print(f" ** Texture {image_name} exists")
 
     @staticmethod
     def get_font(font_name, size=32):

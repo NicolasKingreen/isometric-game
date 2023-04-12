@@ -71,9 +71,33 @@ def scale_image_by_xy(image: pygame.Surface, xy_factors):
         raise Exception("Scaling factors is incorrect (should be 2d list/tuple)")
 
 
+def shrink_rect_by_factor(rect, factor):
+    x, y, w, h = rect
+    if factor != 1:
+        x = w / 2 - w / 2 / factor
+        y = h / 2 - h / 2 / factor
+        # y += h / factor / 2
+
+    if factor < 1:
+        print(x, y)
+
+    w /= factor
+    h /= factor
+    return x, y, w, h
+
+
+def lerp(start, end, t):
+    # return (end - start) * t  # only for start < end
+    return start * (1 - t) + end * t
+
+
 if __name__ == '__main__':
     # tests
     test_image = pygame.Surface((32, 32))
     print(test_image)
     scaled_test_image = scale_image_by_factor(test_image, 2)
     print(scaled_test_image)
+
+    print("Lerp:")
+    print(lerp(0, 100, 0.5))
+    print(lerp(10, -10, 0.1))

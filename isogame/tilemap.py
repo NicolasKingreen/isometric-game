@@ -33,7 +33,14 @@ class Tile:  # do I need it?
 class Chunk:
     def __init__(self, tiles):
         self.tiles = tiles
+        self._surface = None
+        self._should_redraw = False
+
+    def prepare(self):
         self._surface = self._render_tiles()
+
+    def is_ready(self):
+        return self._surface is not None
 
     def _render_tiles(self):
         surface = pygame.Surface((CHUNK_SIZE[0] * TILE_SIZE * 2, CHUNK_SIZE[1] * TILE_SIZE), pygame.SRCALPHA)
@@ -107,8 +114,6 @@ class TileMap:
                 noise_x = tile_x_global / world_width_tiles
                 noise_y = tile_y_global / world_height_tiles
                 tile_noise = noise.pnoise2(noise_x, noise_y)
-                if tile_x_global < 10 and tile_y_global < 10:
-                    print((tile_x_global, tile_y_global), (noise_x, noise_y), tile_noise)
                 if abs(tile_noise) < 0.02:
                     chunk.tiles[tile_x_local + tile_y_local * CHUNK_SIZE[0]] = TileType.WATER
             chunk._surface = chunk._render_tiles()
